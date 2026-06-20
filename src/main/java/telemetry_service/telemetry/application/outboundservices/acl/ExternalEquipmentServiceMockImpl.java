@@ -11,7 +11,7 @@ public class ExternalEquipmentServiceMockImpl implements ExternalEquipmentServic
 
     @Override
     public String getSpeciesByPondId(Long pondId) {
-        return "TRUCHA"; // Mock data
+        return "TILAPIA"; // Mock data
     }
 
     @Override
