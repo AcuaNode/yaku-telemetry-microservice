@@ -134,14 +134,20 @@ public class TelemetryCommandServiceImpl implements TelemetryCommandService {
     @Override
     @Transactional
     public Long handle(telemetry_service.telemetry.domain.model.commands.ConfigureThresholdCommand command) {
-        var speciesEnum = Species.valueOf(command.species());
+        var speciesEnum = Species.valueOf(command.species().toUpperCase());
         var thresholdOptional = thresholdRepository.findBySpecies(speciesEnum);
         if (thresholdOptional.isPresent()) {
-            // Since there's no update method in Threshold yet, we could either add an update method or just replace it.
-            // Let's create a new one and delete the old one or just update it if we add a method.
-            // But wait, Threshold extends AbstractAggregateRoot, we can just delete and recreate or add an update method.
-            // I'll delete the existing one and create a new one to keep it simple, since the ID will change but it's only looked up by species.
-            thresholdRepository.delete(thresholdOptional.get());
+            var threshold = thresholdOptional.get();
+            threshold.update(
+                    command.minTemperature(),
+                    command.maxTemperature(),
+                    command.minPh(),
+                    command.maxPh(),
+                    command.minTurbidity(),
+                    command.maxTurbidity()
+            );
+            thresholdRepository.save(threshold);
+            return threshold.getId();
         }
 
         var threshold = new telemetry_service.telemetry.domain.model.aggregates.Threshold(

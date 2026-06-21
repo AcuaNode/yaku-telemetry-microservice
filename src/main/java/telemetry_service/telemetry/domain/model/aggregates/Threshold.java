@@ -60,4 +60,13 @@ public class Threshold extends AbstractAggregateRoot<Threshold> {
     public boolean isTurbidityViolation(Double turbidity) {
         return turbidity < minTurbidity || turbidity > maxTurbidity;
     }
+
+    public void update(Double minTemperature, Double maxTemperature, Double minPh, Double maxPh, Double minTurbidity, Double maxTurbidity) {
+        this.minTemperature = minTemperature;
+        this.maxTemperature = maxTemperature;
+        this.minPh = minPh;
+        this.maxPh = maxPh;
+        this.minTurbidity = minTurbidity;
+        this.maxTurbidity = maxTurbidity;
+    }
 }
