@@ -1,9 +1,9 @@
 package telemetry_service.telemetry.domain.model.commands;
 
 public record ProcessGroupedTelemetryCommand(
-        Long pondId,
+        String deviceId,
         Double temperature,
-        Double ph,
-        Double turbidity
+        Double turbidity,
+        Double ica
 ) {
 }
